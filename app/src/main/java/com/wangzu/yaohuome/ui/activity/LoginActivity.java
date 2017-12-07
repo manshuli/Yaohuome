@@ -19,7 +19,7 @@ import com.wangzu.yaohuome.R;
 
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity implements TextWatcher {
+public class LoginActivity extends BaseActivity implements TextWatcher {
 
     @BindView(R.id.toorbar)
     Toolbar mToorbar;
@@ -43,7 +43,7 @@ public class MainActivity extends BaseActivity implements TextWatcher {
 
     @Override
     public int layoutId() {
-        return R.layout.activity_main;
+        return R.layout.activity_login;
     }
 
     @Override
@@ -78,7 +78,7 @@ public class MainActivity extends BaseActivity implements TextWatcher {
     }
 
     private void showDialog() {
-        ProgressDialog dialog = new ProgressDialog(MainActivity.this);
+        ProgressDialog dialog = new ProgressDialog(LoginActivity.this);
         dialog.setMessage("登录中...");
         dialog.setCancelable(false);
         dialog.show();
