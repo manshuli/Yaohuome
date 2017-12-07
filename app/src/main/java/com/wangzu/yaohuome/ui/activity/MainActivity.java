@@ -1,4 +1,4 @@
-package com.wangzu.yaohuome.activity;
+package com.wangzu.yaohuome.ui.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;

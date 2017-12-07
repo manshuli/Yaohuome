@@ -1,4 +1,4 @@
-package com.wangzu.yaohuome.activity;
+package com.wangzu.yaohuome.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
