@@ -9,8 +9,8 @@ public class Post {
     private String title;
     private String name;
     private String time;
-    private int read;
-    private int comment;
+    private String read;
+    private String comment;
 
     public String getTitle() {
         return title;
@@ -36,19 +36,19 @@ public class Post {
         this.time = time;
     }
 
-    public int getRead() {
+    public String getRead() {
         return read;
     }
 
-    public void setRead(int read) {
+    public void setRead(String read) {
         this.read = read;
     }
 
-    public int getComment() {
+    public String getComment() {
         return comment;
     }
 
-    public void setComment(int comment) {
+    public void setComment(String comment) {
         this.comment = comment;
     }
 }

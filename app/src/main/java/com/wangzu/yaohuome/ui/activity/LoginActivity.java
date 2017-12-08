@@ -2,6 +2,7 @@ package com.wangzu.yaohuome.ui.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
@@ -134,6 +135,9 @@ public class LoginActivity extends BaseActivity implements TextWatcher, LoginVie
     @Override
     public void success() {
         Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override

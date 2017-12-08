@@ -2,13 +2,13 @@ package com.wangzu.yaohuome.ui.fragment;
 
 
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.wangzu.yaohuome.R;
 import com.wangzu.yaohuome.entity.Post;
 import com.wangzu.yaohuome.presenter.NewPostPresenter;
+import com.wangzu.yaohuome.ui.adapter.PostAdapter;
 import com.wangzu.yaohuome.ui.view.BaseFragment;
 import com.wangzu.yaohuome.ui.view.NewPostView;
 
@@ -35,16 +35,17 @@ public class NewPostFragment extends BaseFragment implements NewPostView {
         mPresenter = new NewPostPresenter(this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
+        //DividerItemDecoration itemDecoration = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
         mNewpostRecyclerview.setLayoutManager(layoutManager);
-        mNewpostRecyclerview.addItemDecoration(itemDecoration);
+        //mNewpostRecyclerview.addItemDecoration(itemDecoration);
 
         mPresenter.requestData();
     }
 
     @Override
     public void loadData(List<Post> list) {
-
+        PostAdapter adapter = new PostAdapter(R.layout.item_post_recyclerview,list);
+        mNewpostRecyclerview.setAdapter(adapter);
     }
 
     @Override
