@@ -14,12 +14,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wangzu.yaohuome.R;
+import com.wangzu.yaohuome.presenter.LoginPrester;
+import com.wangzu.yaohuome.ui.view.LoginView;
 
 import butterknife.BindView;
 
-public class LoginActivity extends BaseActivity implements TextWatcher {
+public class LoginActivity extends BaseActivity implements TextWatcher, LoginView {
 
     @BindView(R.id.toorbar)
     Toolbar mToorbar;
@@ -33,6 +36,8 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
     TextInputLayout mPasswordLayout;
     @BindView(R.id.loginButton)
     Button mLoginButton;
+    private ProgressDialog mDialog;
+    private LoginPrester mPrester;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,40 +53,54 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
 
     @Override
     public void initView() {
+
+        mPrester = new LoginPrester(this);
+
         mAccountEditext.addTextChangedListener(this);
         mPasswordEditext.addTextChangedListener(this);
 
+        //输入法软件盘登录
         mPasswordEditext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == EditorInfo.IME_ACTION_DONE) {
-                    InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(
-                            getWindow().getDecorView().getWindowToken(),
-                            InputMethodManager.RESULT_UNCHANGED_SHOWN);
-                    //登录
-                    showDialog();
-
+                    hideSoftInput();
+                    mPrester.login();
                     return true;
                 }
                 return false;
             }
         });
 
-        //登录
+        //Button登录
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog();
+                hideSoftInput();
+                mPrester.login();
             }
         });
     }
 
+    //隐藏软键盘
+    private void hideSoftInput() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                getWindow().getDecorView().getWindowToken(),
+                InputMethodManager.RESULT_UNCHANGED_SHOWN);
+    }
+
     private void showDialog() {
-        ProgressDialog dialog = new ProgressDialog(LoginActivity.this);
-        dialog.setMessage("登录中...");
-        dialog.setCancelable(false);
-        dialog.show();
+        mAccountLayout.setError(null);
+        mPasswordLayout.setError(null);
+        mDialog = new ProgressDialog(LoginActivity.this);
+        mDialog.setMessage("登录中...");
+        mDialog.setCancelable(false);
+        mDialog.show();
+    }
+
+    private void hideDialog() {
+        mDialog.dismiss();
     }
 
     @Override
@@ -99,4 +118,42 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         mLoginButton.setEnabled(mAccountEditext.length() > 0 && mPasswordEditext.length() > 0);
     }
 
+    @Override
+    public String getUserName() {
+        return mAccountEditext.getText().toString();
+    }
+
+    @Override
+    public String getPassword() {
+        return mPasswordEditext.getText().toString();
+    }
+
+    @Override
+    public void success() {
+        Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void failed(String msg) {
+        if (msg.contains("密码")) {
+            mPasswordLayout.setError(msg);
+        } else {
+            mAccountLayout.setError(msg);
+        }
+    }
+
+    @Override
+    public void error() {
+
+    }
+
+    @Override
+    public void showProgress() {
+        showDialog();
+    }
+
+    @Override
+    public void hideProgress() {
+        hideDialog();
+    }
 }
