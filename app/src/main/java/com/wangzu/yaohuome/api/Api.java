@@ -14,3 +14,4 @@ public class Api {
     public final static String LOGIN_RRL = "waplogin.aspx";
     public static Map<String,String> COOKIES = null;
 }
+//最新帖子 http://yaohuo.me/bbs/book_list.aspx?action=new

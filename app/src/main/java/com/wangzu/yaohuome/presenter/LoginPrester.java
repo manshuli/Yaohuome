@@ -9,7 +9,7 @@ import com.wangzu.yaohuome.ui.view.LoginView;
  * Email 1573335865@qq.com
  */
 
-public class LoginPrester implements RequestListener {
+public class LoginPrester implements RequestListener<String> {
     private LoginModel mModel;
     private LoginView mView;
 
@@ -24,7 +24,7 @@ public class LoginPrester implements RequestListener {
     }
 
     @Override
-    public void success() {
+    public void success(String data) {
         mView.hideProgress();
         mView.success();
     }

@@ -6,7 +6,6 @@ package com.wangzu.yaohuome.ui.view;
  */
 
 public interface BaseView {
-    void success();
 
     void failed(String msg);
 

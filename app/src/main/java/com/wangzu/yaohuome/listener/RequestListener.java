@@ -5,8 +5,8 @@ package com.wangzu.yaohuome.listener;
  * Email 1573335865@qq.com
  */
 
-public interface RequestListener {
-    void success();
+public interface RequestListener<T> {
+    void success(T data);
 
     void failed(String msg);
 

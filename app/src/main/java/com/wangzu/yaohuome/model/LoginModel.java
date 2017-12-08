@@ -55,7 +55,7 @@ public class LoginModel {
                         String status = document.select(".tip").text();
                         Log.e("tag", status);
                         if (status.contains("成功")) {
-                            mListener.success();
+                            mListener.success(status);
                         } else {
                             mListener.failed(status);
                         }

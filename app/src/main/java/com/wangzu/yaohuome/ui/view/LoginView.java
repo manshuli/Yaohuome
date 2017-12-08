@@ -6,6 +6,8 @@ package com.wangzu.yaohuome.ui.view;
  */
 
 public interface LoginView extends BaseView {
+    void success();
+
     String getUserName();
 
     String getPassword();

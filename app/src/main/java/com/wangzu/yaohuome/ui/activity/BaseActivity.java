@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.wangzu.yaohuome.utils.ActivityManager;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -26,6 +28,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(layoutId());
+        ActivityManager.add(this);
         mUnbinder = ButterKnife.bind(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         initView();
@@ -34,6 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         mUnbinder.unbind();
+        ActivityManager.remove(this);
         super.onDestroy();
     }
 
