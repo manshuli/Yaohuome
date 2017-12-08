@@ -22,7 +22,7 @@ import com.wangzu.yaohuome.ui.view.LoginView;
 
 import butterknife.BindView;
 
-public class LoginActivity extends BaseActivity implements TextWatcher, LoginView {
+public class LoginActivity extends BaseActivity implements TextWatcher, LoginView, View.OnFocusChangeListener {
 
     @BindView(R.id.toorbar)
     Toolbar mToorbar;
@@ -58,6 +58,9 @@ public class LoginActivity extends BaseActivity implements TextWatcher, LoginVie
 
         mAccountEditext.addTextChangedListener(this);
         mPasswordEditext.addTextChangedListener(this);
+
+        mAccountEditext.setOnFocusChangeListener(this);
+        mPasswordEditext.setOnFocusChangeListener(this);
 
         //输入法软件盘登录
         mPasswordEditext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -155,5 +158,21 @@ public class LoginActivity extends BaseActivity implements TextWatcher, LoginVie
     @Override
     public void hideProgress() {
         hideDialog();
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        switch (v.getId()) {
+            case R.id.accountEditext:
+                if (!hasFocus) {
+                    mAccountLayout.setError(null);
+                }
+                break;
+            case R.id.passwordEditext:
+                if (!hasFocus) {
+                    mPasswordLayout.setError(null);
+                }
+                break;
+        }
     }
 }
