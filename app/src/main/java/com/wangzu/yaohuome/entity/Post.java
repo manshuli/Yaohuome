@@ -8,9 +8,12 @@ package com.wangzu.yaohuome.entity;
 public class Post {
     private String title;
     private String name;
+    private String nameColor = "#555555";
     private String time;
     private String read;
     private String comment;
+    private String url;
+
 
     public String getTitle() {
         return title;
@@ -26,6 +29,14 @@ public class Post {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getNameColor() {
+        return nameColor;
+    }
+
+    public void setNameColor(String nameColor) {
+        this.nameColor = nameColor;
     }
 
     public String getTime() {
@@ -50,5 +61,13 @@ public class Post {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

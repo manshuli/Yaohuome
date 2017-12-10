@@ -3,6 +3,8 @@ package com.wangzu.yaohuome.api;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import java.io.IOException;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -13,13 +15,13 @@ import io.reactivex.ObservableOnSubscribe;
  */
 
 public class WebObservable {
-    public static Observable<Document> getObservable(final String url) {
+    public static Observable<Document> getObservable(final String url) throws IOException {
         return Observable.create(new ObservableOnSubscribe<Document>() {
             @Override
             public void subscribe(ObservableEmitter<Document> emitter) throws Exception {
                 Document document = null;
                 if (Api.COOKIES != null) {
-                    document = Jsoup.connect(Api.HOST + url).cookies(Api.COOKIES).timeout(10000).get();
+                    document = Jsoup.connect(Api.HOST + url).cookies(Api.COOKIES).timeout(15000).get();
                 }
                 //Log.e("tag", document.body().toString());
                 emitter.onNext(document);

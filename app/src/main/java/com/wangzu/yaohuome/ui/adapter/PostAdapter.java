@@ -1,5 +1,6 @@
 package com.wangzu.yaohuome.ui.adapter;
 
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -23,6 +24,7 @@ public class PostAdapter extends BaseQuickAdapter<Post, BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, Post item) {
         helper.setText(R.id.name, item.getName());
+        helper.setTextColor(R.id.name, Color.parseColor(item.getNameColor()));
         helper.setText(R.id.time, item.getTime());
         helper.setText(R.id.read, item.getRead().trim().replace("/", ""));
         helper.setText(R.id.comment, item.getComment().trim().replace("/", ""));

@@ -21,9 +21,9 @@ public class NewPostPresenter implements RequestListener<List<Post>>{
         mView = view;
     }
 
-    public void requestData(){
+    public void requestData(int page){
         mView.showProgress();
-        mModel.requestData();
+        mModel.requestData(page);
     }
 
     @Override

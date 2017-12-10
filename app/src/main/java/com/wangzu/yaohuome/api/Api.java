@@ -13,7 +13,7 @@ public class Api {
     public final static String LOGIN_RRL = "waplogin.aspx";
 
     public final static String HOST = "https://yaohw.com/";
-    public final static String NEWPOSTURL = "bbs/book_list.aspx?action=new";
+    public final static String NEWPOSTURL = "bbs/book_list.aspx?action=new&page=";
     public static Map<String,String> COOKIES = null;
 }
-//最新帖子 http://yaohuo.me/bbs/book_list.aspx?action=new
+//最新帖子 https://yaohw.com/bbs/book_list.aspx?action=new

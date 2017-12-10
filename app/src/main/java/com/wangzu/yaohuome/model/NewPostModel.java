@@ -1,5 +1,7 @@
 package com.wangzu.yaohuome.model;
 
+import android.text.TextUtils;
+
 import com.wangzu.yaohuome.api.Api;
 import com.wangzu.yaohuome.api.WebObservable;
 import com.wangzu.yaohuome.entity.Post;
@@ -9,6 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,23 +33,27 @@ public class NewPostModel {
         mListener = listener;
     }
 
-    public void requestData() {
-
-        WebObservable.getObservable(Api.NEWPOSTURL)
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.computation())
-                .doOnNext(new Consumer<Document>() {
-                    @Override
-                    public void accept(Document document) throws Exception {
-                        posts = getListPost(document);
-                    }
-                }).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Document>() {
-                    @Override
-                    public void accept(Document document) throws Exception {
-                        mListener.success(posts);
-                    }
-                });
+    public void requestData(int page) {
+        try {
+            WebObservable.getObservable(Api.NEWPOSTURL + page)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.computation())
+                    .doOnNext(new Consumer<Document>() {
+                        @Override
+                        public void accept(Document document) throws Exception {
+                            posts = getListPost(document);
+                        }
+                    }).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<Document>() {
+                        @Override
+                        public void accept(Document document) throws Exception {
+                            mListener.success(posts);
+                        }
+                    });
+        } catch (IOException e) {
+            mListener.error();
+            e.printStackTrace();
+        }
     }
 
     private List<Post> getListPost(Document document) {
@@ -56,30 +63,34 @@ public class NewPostModel {
         Elements elements = document.select("div[class^=line]");
         for (Element element : elements) {
 
-            StringBuffer stringBuffer = new StringBuffer(element.text());
-
-            String time = stringBuffer.substring(stringBuffer.length() - 6, stringBuffer.length());
-            stringBuffer.delete(stringBuffer.length() - 6, stringBuffer.length());
-
-            String read = stringBuffer.substring(stringBuffer.lastIndexOf("/"), stringBuffer.length());
-            stringBuffer.delete(stringBuffer.lastIndexOf("/"), stringBuffer.length());
-
-            String comment = stringBuffer.substring(stringBuffer.lastIndexOf("/"), stringBuffer.length());
-            stringBuffer.delete(stringBuffer.lastIndexOf("/"), stringBuffer.length());
-
-            String name = stringBuffer.substring(stringBuffer.lastIndexOf(" "), stringBuffer.length());
-            stringBuffer.delete(stringBuffer.lastIndexOf(" "), stringBuffer.length());
-
-            String title = stringBuffer.substring(stringBuffer.indexOf(".") + 1, stringBuffer.length());
-
-            //Log.e("tag",title+"\t"+name+"\t"+comment+"\t"+read+"\t"+time);
-
             Post post = new Post();
+
+            Element titleElement = element.selectFirst("a[href^=/bbs-]");
+            String url = titleElement.attr("href");
+            String title = titleElement.text();
+
+            StringBuffer sb = new StringBuffer(element.ownText());
+            String read = sb.substring(sb.lastIndexOf("/"), sb.length());
+            String name = sb.delete(sb.lastIndexOf("/"), sb.length()).substring(sb.indexOf(" "), sb.lastIndexOf("/")).trim();
+
+            if (TextUtils.isEmpty(name.trim())) {
+                Element fontElement = element.select("font").first();
+                if (fontElement != null) {
+                    name = fontElement.text();
+                    String nameColor = fontElement.attr("color");
+                    post.setNameColor(nameColor);
+                }
+            }
+
+            String time = element.selectFirst("span").text();
+            String comment = element.selectFirst("a[href^=/bbs/book_re.aspx?]").text() + "回";
+
             post.setTitle(title);
             post.setName(name);
             post.setComment(comment);
             post.setRead(read);
             post.setTime(time);
+            post.setUrl(url);
             posts.add(post);
         }
         return posts;
