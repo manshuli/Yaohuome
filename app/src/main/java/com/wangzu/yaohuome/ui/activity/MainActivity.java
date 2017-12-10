@@ -3,6 +3,7 @@ package com.wangzu.yaohuome.ui.activity;
 import android.os.Bundle;
 
 import com.wangzu.yaohuome.R;
+import com.zzhoujay.richtext.RichText;
 
 public class MainActivity extends BaseActivity {
 
@@ -19,5 +20,11 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initView() {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        RichText.recycle();
+        super.onDestroy();
     }
 }

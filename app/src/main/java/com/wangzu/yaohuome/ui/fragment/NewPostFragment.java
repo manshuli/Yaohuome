@@ -1,6 +1,7 @@
 package com.wangzu.yaohuome.ui.fragment;
 
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wangzu.yaohuome.R;
 import com.wangzu.yaohuome.entity.Post;
 import com.wangzu.yaohuome.presenter.NewPostPresenter;
+import com.wangzu.yaohuome.ui.activity.PostInfoActivity;
 import com.wangzu.yaohuome.ui.adapter.PostAdapter;
 import com.wangzu.yaohuome.ui.view.BaseFragment;
 import com.wangzu.yaohuome.ui.view.NewPostView;
@@ -23,7 +25,7 @@ import butterknife.BindView;
  * 最新帖子Fragment
  * A simple {@link Fragment} subclass.
  */
-public class NewPostFragment extends BaseFragment implements NewPostView, BaseQuickAdapter.RequestLoadMoreListener {
+public class NewPostFragment extends BaseFragment implements NewPostView, BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener {
 
 
     @BindView(R.id.newpost_recyclerview)
@@ -65,6 +67,7 @@ public class NewPostFragment extends BaseFragment implements NewPostView, BaseQu
             mAdapter = new PostAdapter(R.layout.item_post_recyclerview, list);
             mAdapter.setPreLoadNumber(5);
             mAdapter.setOnLoadMoreListener(this, mNewpostRecyclerview);
+            mAdapter.setOnItemClickListener(this);
             mNewpostRecyclerview.setAdapter(mAdapter);
         } else {
             mAdapter.addData(list);
@@ -96,5 +99,13 @@ public class NewPostFragment extends BaseFragment implements NewPostView, BaseQu
     @Override
     public void onLoadMoreRequested() {
         mPresenter.requestData(++page);
+    }
+
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        Intent intent = new Intent(mContext, PostInfoActivity.class);
+        Post post = ((Post)adapter.getItem(position));
+        intent.putExtra("post", post);
+        mContext.startActivity(intent);
     }
 }

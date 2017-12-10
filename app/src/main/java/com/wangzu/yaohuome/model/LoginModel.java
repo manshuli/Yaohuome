@@ -1,7 +1,5 @@
 package com.wangzu.yaohuome.model;
 
-import android.util.Log;
-
 import com.wangzu.yaohuome.api.Api;
 import com.wangzu.yaohuome.listener.RequestListener;
 
@@ -53,7 +51,6 @@ public class LoginModel {
                     @Override
                     public void accept(Document document) throws Exception {
                         String status = document.select(".tip").text();
-                        Log.e("tag", status);
                         if (status.contains("成功")) {
                             mListener.success(status);
                         } else {

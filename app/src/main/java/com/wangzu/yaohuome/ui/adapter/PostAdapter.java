@@ -26,8 +26,8 @@ public class PostAdapter extends BaseQuickAdapter<Post, BaseViewHolder> {
         helper.setText(R.id.name, item.getName());
         helper.setTextColor(R.id.name, Color.parseColor(item.getNameColor()));
         helper.setText(R.id.time, item.getTime());
-        helper.setText(R.id.read, item.getRead().trim().replace("/", ""));
-        helper.setText(R.id.comment, item.getComment().trim().replace("/", ""));
+        helper.setText(R.id.read, item.getRead());
+        helper.setText(R.id.comment, item.getComment());
         helper.setText(R.id.title, item.getTitle());
     }
 }

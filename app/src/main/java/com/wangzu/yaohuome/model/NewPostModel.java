@@ -68,9 +68,10 @@ public class NewPostModel {
             Element titleElement = element.selectFirst("a[href^=/bbs-]");
             String url = titleElement.attr("href");
             String title = titleElement.text();
+            String id = url.substring(url.indexOf("-") + 1, url.indexOf("."));
 
             StringBuffer sb = new StringBuffer(element.ownText());
-            String read = sb.substring(sb.lastIndexOf("/"), sb.length());
+            String read = sb.substring(sb.lastIndexOf("/") + 1, sb.length());
             String name = sb.delete(sb.lastIndexOf("/"), sb.length()).substring(sb.indexOf(" "), sb.lastIndexOf("/")).trim();
 
             if (TextUtils.isEmpty(name.trim())) {
@@ -85,6 +86,7 @@ public class NewPostModel {
             String time = element.selectFirst("span").text();
             String comment = element.selectFirst("a[href^=/bbs/book_re.aspx?]").text() + "回";
 
+            post.setId(id);
             post.setTitle(title);
             post.setName(name);
             post.setComment(comment);
