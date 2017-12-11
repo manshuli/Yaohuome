@@ -74,7 +74,6 @@
             android:drawablePadding="10dp"
             android:drawableStart="@drawable/ic_password"
             android:hint="密码"
-            android:text="2016"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:maxLength="15"/>
